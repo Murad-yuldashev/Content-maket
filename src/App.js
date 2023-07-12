@@ -1,9 +1,10 @@
-
+import { Header, Main,  } from './components/index';
 
 function App() {
   return (
-    <div className="App">
-      <h1>Hello World</h1>
+    <div className="">
+      <Header />
+      <Main />
     </div>
   );
 }
