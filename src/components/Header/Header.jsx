@@ -1,13 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Navbar } from "../index";
-import { Content, HeaderBackground, Media } from "../../Assets";
-// import HeaderBackground from "../../Assets/img/HeaderBackground.png";
+import { Content, Media } from "../../Assets";
+import HeaderBackground from "../../Assets/img/HeaderBackground.png";
+import HeaderMobile from "../../Assets/img/HeaderMobile.png";
 
 const Header = () => {
+  const [imageSrc, setImageSrc] = useState("");
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.matchMedia("(max-width: 448px)").matches) {
+        setImageSrc(`${HeaderMobile}`); //"../../Assets/img/HeaderMobile.png"
+      } else {
+        setImageSrc(`${HeaderBackground}`); //"../../Assets/img/HeaderBackground.png"
+      }
+    };
+
+    handleResize(); // set initial image source on mount
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   let sectionStyle = {
     // width: "100%",
     // height: "1350px",
-    backgroundPosition: 'center bottom 0',
+    backgroundPosition: "center bottom 0",
     backgroundImage: `url(${require("../../Assets/img/HeaderBackground.png")})`,
     backgroundSize: "contain",
     backgroundRepeat: "no-repeat",
@@ -15,8 +33,9 @@ const Header = () => {
 
   return (
     <section
-      style={sectionStyle}
-      className={`pt-7 bg-black-Background px-2 relative w-full flex flex-col items-center h-[950px] md:h-[1350px] text-center`}
+      // style={sectionStyle}
+      style={{backgroundImage: `url(${imageSrc})`, backgroundPosition: "center bottom 0", backgroundSize: "contain", backgroundRepeat: "no-repeat",}}
+      className={`pt-7 bg-black-Background px-2 relative w-full flex flex-col items-center h-[960px] md:h-[1350px] text-center`}
     >
       <Navbar />
       <div className=" md:w-7/12 w-full flex flex-col items-center justify-center mt-24 shrink px-2 sm:px-10 ">
